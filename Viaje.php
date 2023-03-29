@@ -48,7 +48,7 @@ class Viaje{
         $this->cantMaxPasajeros = $cantMaxima;
     }
 
-    public function getpasajeros()
+    public function getPasajeros()
     {
         return $this->pasajeros;
     }
@@ -106,7 +106,7 @@ class Viaje{
                 $arrayPasajeros[$i]["nombre"] = $nombAgregar;
                 $arrayPasajeros[$i]["apellido"] = $apellAgregar;
                 $arrayPasajeros[$i]["nro doc"] = $docAgregar;
-                $this->setPasajeros($arrayPasajeros[$i]);
+                $this->setPasajeros($arrayPasajeros);
                 $cond =true;
             }else{
                 $cond =false;
@@ -121,12 +121,88 @@ class Viaje{
     }
 
 
+
+    public function modificarPasajero($dni){
+        $boolean = false;
+        $arrayDePaso = $this->getPasajeros();
+        $count = count($arrayDePaso);
+        $noEncontrado = true;
+        $i = 0;
+        $posicion = 0;
+        
+        //Busqueda del pasajero
+        while($noEncontrado && $i < $count){
+            $pasajeroSeleccionado = $arrayDePaso[$i];
+            $dniSeleccionado = $pasajeroSeleccionado["nro doc"];
+            if($dni == $dniSeleccionado){
+                $noEncontrado = false;
+                $posicion = $i;
+                $boolean = true;
+            }else{
+                echo "DNI no encontrado";
+            }
+            $i++;
+       }
+
+       if(!$noEncontrado){
+        $pasajero = $arrayDePaso[$posicion];
+        $this->menuModificar($pasajero);
+        $arrayDePaso[$posicion] = $pasajero;
+    }
+
+       return $boolean;
+    }   
+
+
+
+    private function menuModificar($pasajMod){
+        $menuModificar = "
+        1. Modificar nombre.\n
+        2. Modificar apellido.\n
+        3. Modificar dni.\n
+        4. Salir.\n";
+        $salir = true;
+        do {
+            echo $menuModificar;
+            $seleccion = trim(fgets(STDIN));
+            switch ($seleccion) {
+                case '1':
+                    echo "El nombre a cambiar es: ".$pasajMod["nombre"];
+                    echo "\nIngrese el nuevo nombre: \n";
+                    $nuevoNombre = trim(fgets(STDIN));
+                    $pasajMod["nombre"]=$nuevoNombre;
+                    break;
+
+                case '2':
+                    echo "El apellido a cambiar es: ".$pasajMod["apellido"];
+                    echo "Ingrese el nuevo apellido: \n";
+                    $nuevoApellido = trim(fgets(STDIN));
+                    $pasajMod["apellido"]=$nuevoApellido;
+                    break;
+
+                case '3':
+                    echo "El documento a cambiar es: ".$pasajMod["nro doc"];
+                    echo "Ingrese el nuevo dni: \n";
+                    $nuevoDni = intval(trim(fgets(STDIN)));
+                    $pasajMod["nro doc"]=$nuevoDni;
+                    break;
+
+                default:
+                    $salir = false;
+                    break;
+            }
+        } while ($salir);
+        $this->setPasajeros($pasajMod);
+        return $pasajMod;
+    }
+
+
     public function __toString()
     {
-        $cadena = "---------------------------------\nNumero de codigo viaje: ".$this->codViaje.
+        $cadena = "\n---------------------------------\nNumero de codigo viaje: ".$this->codViaje.
                   "\nDestino:".$this->dest.
                   "\nCantidad Maxima de pasajeros: ".$this->cantMaxPasajeros.
-                  "\n--------------------------------";
+                  "\n--------------------------------\n";
 
         return $cadena;
     }
