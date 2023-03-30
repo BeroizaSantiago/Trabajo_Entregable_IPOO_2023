@@ -1,18 +1,18 @@
 <?php
 include 'Viaje.php';
 
-echo "INGRESE LOS DATOS DEL VIAJE:\n";
-echo "Codigo: ";
-$codViaje = trim(fgets(STDIN));
-echo "Destino: ";
-$destinoViaje = trim(fgets(STDIN));
-echo "Capacidad Maxima: ";
-$capMaxViaje = trim(fgets(STDIN));
+// echo "INGRESE LOS DATOS DEL VIAJE:\n";
+// echo "Codigo: ";
+// $codViaje = trim(fgets(STDIN));
+// echo "Destino: ";
+// $destinoViaje = trim(fgets(STDIN));
+// echo "Capacidad Maxima: ";
+// $capMaxViaje = trim(fgets(STDIN));
 
 
-$objViaje = new Viaje($codViaje,$destinoViaje,$capMaxViaje);
+// $objViaje = new Viaje($codViaje,$destinoViaje,$capMaxViaje);
 // $objViaje = new Viaje(3323,"Santa Rosa",55);
-// $objViaje = new Viaje(5885,"San Martin De los Andes",60);
+$objViaje = new Viaje(5885,"San Martin De los Andes",60);
 // $objViaje = new Viaje(6367,"El Chalten",30);
 // $objViaje = new Viaje(5995,"La Pampa",68);
 $finalizar = true;
@@ -63,7 +63,9 @@ do {
 
 
         case '4':
-            print_r($objViaje->getPasajeros());
+            echo 
+            "\n----------------------------\nLos Pasajeros del Viaje son:\n";
+            echo $objViaje->pasajerosStr();
     
             break;
 

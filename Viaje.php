@@ -95,6 +95,7 @@ class Viaje{
             echo "--------------------------------\n";
             echo "¿Desea ingresar un pasajero? \nResponda: (s/n)";
             $resp  = trim(fgets(STDIN));
+            strtolower($resp);
             if($resp == "s"){
                 echo "Ingrese el nombre del pasajero: \n";
                 $nombAgregar  = trim(fgets(STDIN));
@@ -129,6 +130,7 @@ class Viaje{
         $noEncontrado = true;
         $i = 0;
         $posicion = 0;
+        $modificado=[];
         
         //Busqueda del pasajero
         while($noEncontrado && $i < $count){
@@ -146,8 +148,10 @@ class Viaje{
 
        if(!$noEncontrado){
         $pasajero = $arrayDePaso[$posicion];
-        $this->menuModificar($pasajero);
-        $arrayDePaso[$posicion] = $pasajero;
+        $modificado = $this->menuModificar($pasajero);
+        $arrayDePaso[$posicion] = $modificado;
+        $this->setPasajeros($arrayDePaso);
+        
     }
 
        return $boolean;
@@ -175,14 +179,14 @@ class Viaje{
 
                 case '2':
                     echo "El apellido a cambiar es: ".$pasajMod["apellido"];
-                    echo "Ingrese el nuevo apellido: \n";
+                    echo "\nIngrese el nuevo apellido: \n";
                     $nuevoApellido = trim(fgets(STDIN));
                     $pasajMod["apellido"]=$nuevoApellido;
                     break;
 
                 case '3':
                     echo "El documento a cambiar es: ".$pasajMod["nro doc"];
-                    echo "Ingrese el nuevo dni: \n";
+                    echo "\nIngrese el nuevo dni: \n";
                     $nuevoDni = intval(trim(fgets(STDIN)));
                     $pasajMod["nro doc"]=$nuevoDni;
                     break;
@@ -192,8 +196,23 @@ class Viaje{
                     break;
             }
         } while ($salir);
-        $this->setPasajeros($pasajMod);
+        
         return $pasajMod;
+    }
+
+    public function pasajerosStr(){
+        $strPasajeros="";
+        $i=1;
+        foreach ($this->getPasajeros() as $key => $value) {
+            $objPasajero = $value; 
+            $string ="Pasajero NRO ({$i})
+                    \nNombre y Apellido: {$objPasajero["nombre"]} {$objPasajero["apellido"]}
+                    \nDocumento: {$objPasajero["nro doc"]}\n";
+            $strPasajeros.= $string."\n";
+            $i++;
+        }
+
+        return $strPasajeros;
     }
 
 
@@ -202,7 +221,7 @@ class Viaje{
         $cadena = "\n---------------------------------\nNumero de codigo viaje: ".$this->codViaje.
                   "\nDestino:".$this->dest.
                   "\nCantidad Maxima de pasajeros: ".$this->cantMaxPasajeros.
-                  "\n--------------------------------\n";
+                  "\n---------------------------------\n";
 
         return $cadena;
     }
