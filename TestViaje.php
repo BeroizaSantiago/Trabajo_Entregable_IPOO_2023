@@ -8,9 +8,9 @@ include 'Viaje.php';
 // $destinoViaje = trim(fgets(STDIN));
 // echo "Capacidad Maxima: ";
 // $capMaxViaje = trim(fgets(STDIN));
-
-
 // $objViaje = new Viaje($codViaje,$destinoViaje,$capMaxViaje);
+
+
 // $objViaje = new Viaje(3323,"Santa Rosa",55);
 $objViaje = new Viaje(5885,"San Martin De los Andes",60);
 // $objViaje = new Viaje(6367,"El Chalten",30);

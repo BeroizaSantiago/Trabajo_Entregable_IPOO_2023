@@ -86,11 +86,10 @@ class Viaje{
 
     }
 
-
+    //Funcion para agregar pasajeros
     public function agregarPasajero(){
         $arrayPasajeros = $this->getPasajeros();
         $cond = true;
-        $i = 0;
         while($cond){
             echo "--------------------------------\n";
             echo "¿Desea ingresar un pasajero? \nResponda: (s/n)";
@@ -104,25 +103,21 @@ class Viaje{
                 echo "Ingrese el documento del pasajero: \n";
                 $docAgregar  = trim(fgets(STDIN));
 
-                $arrayPasajeros[$i]["nombre"] = $nombAgregar;
-                $arrayPasajeros[$i]["apellido"] = $apellAgregar;
-                $arrayPasajeros[$i]["nro doc"] = $docAgregar;
-                $this->setPasajeros($arrayPasajeros);
-                $cond =true;
+                $arrayPasajeros=["nombre" => $nombAgregar,
+                                "apellido" => $apellAgregar,
+                                "nro doc" => $docAgregar];
+
+                array_push($this->pasajeros, $arrayPasajeros);
             }else{
                 $cond =false;
             }
-
-            $i++;
-            
-
         }
         
         return $arrayPasajeros;
     }
 
 
-
+    //Funcion para modificar un pasajero
     public function modificarPasajero($dni){
         $boolean = false;
         $arrayDePaso = $this->getPasajeros();
@@ -140,8 +135,6 @@ class Viaje{
                 $noEncontrado = false;
                 $posicion = $i;
                 $boolean = true;
-            }else{
-                echo "DNI no encontrado";
             }
             $i++;
        }
@@ -158,7 +151,7 @@ class Viaje{
     }   
 
 
-
+    //Menu de modificacion de pasajero
     private function menuModificar($pasajMod){
         $menuModificar = "
         1. Modificar nombre.\n
@@ -200,9 +193,10 @@ class Viaje{
         return $pasajMod;
     }
 
+    //Funcion para mostrar los datos del pasajero en forma de string
     public function pasajerosStr(){
         $strPasajeros="";
-        $i=1;
+        $i=0;
         foreach ($this->getPasajeros() as $key => $value) {
             $objPasajero = $value; 
             $string ="Pasajero NRO ({$i})
@@ -215,7 +209,7 @@ class Viaje{
         return $strPasajeros;
     }
 
-
+    //Datos del viaje
     public function __toString()
     {
         $cadena = "\n---------------------------------\nNumero de codigo viaje: ".$this->codViaje.
