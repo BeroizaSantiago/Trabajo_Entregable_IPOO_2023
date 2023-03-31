@@ -215,6 +215,7 @@ class Viaje{
         $cadena = "\n---------------------------------\nNumero de codigo viaje: ".$this->codViaje.
                   "\nDestino:".$this->dest.
                   "\nCantidad Maxima de pasajeros: ".$this->cantMaxPasajeros.
+                  "\nLista de pasajeros: ".$this->pasajerosStr().
                   "\n---------------------------------\n";
 
         return $cadena;
