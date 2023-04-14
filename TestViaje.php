@@ -1,32 +1,33 @@
 <?php
 include 'Viaje.php';
-
-// echo "INGRESE LOS DATOS DEL VIAJE:\n";
-// echo "Codigo: ";
-// $codViaje = trim(fgets(STDIN));
-// echo "Destino: ";
-// $destinoViaje = trim(fgets(STDIN));
-// echo "Capacidad Maxima: ";
-// $capMaxViaje = trim(fgets(STDIN));
-// $objViaje = new Viaje($codViaje,$destinoViaje,$capMaxViaje);
+include 'Pasajero.php';
+include 'ResponsableV.php';
 
 
-// $objViaje = new Viaje(3323,"Santa Rosa",55);
-$objViaje = new Viaje(5885,"San Martin De los Andes",60);
-// $objViaje = new Viaje(6367,"El Chalten",30);
-// $objViaje = new Viaje(5995,"La Pampa",68);
+
+
+$objResp =new ResponsableV(123,33,"Rodolfo","Martinez");
+$objPas =new Pasajero("","","","");
 $finalizar = true;
 do {
     echo menuPrincipal();
     $opcionPrincipal = trim(fgets(STDIN));
     switch ($opcionPrincipal) {
         case '1':
-            echo $objViaje;
+            echo "INGRESE LOS DATOS DEL VIAJE:\n";
+            echo "Codigo: ";
+            $codViaje = trim(fgets(STDIN));
+            echo "Destino: ";
+            $destinoViaje = trim(fgets(STDIN));
+            echo "Capacidad Maxima: ";
+            $capMaxViaje = trim(fgets(STDIN));
+            $objViaje = new Viaje($codViaje,$destinoViaje,$capMaxViaje,$objResp,$objPas);
             break;
 
         case '2':
                 echo menuModDatos();
                 $opc = trim(fgets(STDIN));
+               
                 switch($opc){
                     case '1':
                         echo "El Codigo del Viaje es: ".$objViaje->getCodViaje(). "\n";
@@ -53,11 +54,23 @@ do {
                     break;
 
                 }
-
+                
             break;
 
         case '3':
-            $objViaje->agregarPasajero();
+            echo "Ingrese el nombre del pasajero: ";
+            $nombre = trim(fgets(STDIN));
+            echo "Ingrese el apellido del pasajero: ";
+            $apellido = trim(fgets(STDIN));
+            echo "Ingrese el número de documento del pasajero: ";
+            $documento = trim(fgets(STDIN));
+            echo "Ingrese el teléfono del pasajero: ";
+            $telefono = trim(fgets(STDIN));
+            
+            // Crear una instancia de la clase Pasajero con los datos ingresados
+            $pasajero = new Pasajero($nombre, $apellido, $documento, $telefono);
+            
+            $objViaje->agregarPasajero($pasajero);
 
             break;
 
@@ -70,12 +83,26 @@ do {
             break;
 
         case '5':
-            echo "Ingrese el dni del pasajero a modificar:\n";
-            $dni = trim(fgets(STDIN));
-            $objViaje->modificarPasajero($dni);
+            echo "Ingrese el número de documento del pasajero a modificar: ";
+            $documento = trim(fgets(STDIN));
+            echo "Ingrese el nuevo nombre: ";
+            $nombre = trim(fgets(STDIN));
+            echo "Ingrese el nuevo apellido: ";
+            $apellido = trim(fgets(STDIN));
+            echo "Ingrese el nuevo teléfono: ";
+            $telefono = trim(fgets(STDIN));
+            
+            if ($objViaje->modificarPasajero($documento, $nombre, $apellido, $telefono)) {
+                echo "Pasajero modificado exitosamente.";
+            } else {
+                echo "No se encontró al pasajero con el número de documento especificado.";
+            }
         
             break;
-
+        
+        case '6':
+            echo $objViaje;
+            break;
 
         default:
             $finalizar = false;
@@ -95,12 +122,13 @@ function menuPrincipal()
 {
     $cadena = "\n-----MENU PRINCIPAL-----\n
     Elija una opción:\n
-    1. Ver viaje de la empresa.\n
+    1. Agregar viaje de la empresa.\n
     2. Cambiar datos de un viaje.\n
     3. Vender un viaje a una persona.\n
     4. Ver lista de pasajeros.\n
     5. Modificar un pasajero.\n
-    6. Salir.\n";
+    6. Ver viaje.\n
+    7. Salir.\n";
     return $cadena;
 }
 
