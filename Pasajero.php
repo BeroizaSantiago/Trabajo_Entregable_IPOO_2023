@@ -4,12 +4,16 @@ class Pasajero {
     private $apellido;
     private $documento;
     private $telefono;
+    private $numeroAsiento;
+    private $numeroTicket;
     
-    public function __construct($nombre, $apellido, $documento, $telefono) {
+    public function __construct($nombre, $apellido, $documento, $telefono,$numeroAsiento,$numeroTicket) {
         $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->documento = $documento;
         $this->telefono = $telefono;
+        $this->telefono = $numeroAsiento;
+        $this->telefono = $numeroTicket;
     }
     
     // Métodos getters y setters para $nombre, $apellido, $documento y $telefono
@@ -45,6 +49,20 @@ class Pasajero {
     public function setTelefono($telefono) {
         $this->telefono = $telefono;
     }
+    public function getNumeroAsiento() {
+        return $this->numeroAsiento;
+    }
+    
+    public function setNumeroAsiento($numeroAsiento) {
+        $this->numeroAsiento = $numeroAsiento;
+    }
+    public function getNumeroTicket() {
+        return $this->numeroTicket;
+    }
+    
+    public function setNumeroTicket($numeroTicket) {
+        $this->numeroTicket = $numeroTicket;
+    }
     
 
     
@@ -52,8 +70,15 @@ class Pasajero {
         $cadena = "Nombre: " . $this->nombre . "\n" .
                "Apellido: " . $this->apellido . "\n" .
                "Documento: " . $this->documento . "\n" .
-               "Teléfono: " . $this->telefono . "\n";
+               "Teléfono: " . $this->telefono . "\n".
+               "Numero de Asiento: " . $this->numeroAsiento . "\n".
+               "Numero de Ticket: " . $this->numeroTicket . "\n";
 
         return $cadena;
+    }
+
+
+    public function darPorcentajeIncremento(){
+        return 10;
     }
 }

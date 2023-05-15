@@ -7,7 +7,7 @@ include 'ResponsableV.php';
 
 
 $objResp =new ResponsableV(123,33,"Rodolfo","Martinez");
-$objPas =new Pasajero("","","","");
+$objPas =new Pasajero("","","","","","");
 $finalizar = true;
 do {
     echo menuPrincipal();
@@ -21,7 +21,9 @@ do {
             $destinoViaje = trim(fgets(STDIN));
             echo "Capacidad Maxima: ";
             $capMaxViaje = trim(fgets(STDIN));
-            $objViaje = new Viaje($codViaje,$destinoViaje,$capMaxViaje,$objResp,$objPas);
+            echo "Costo: ";
+            $costo = trim(fgets(STDIN));
+            $objViaje = new Viaje($codViaje,$destinoViaje,$capMaxViaje,$objResp,$objPas,$costo);
             break;
 
         case '2':
@@ -66,9 +68,13 @@ do {
             $documento = trim(fgets(STDIN));
             echo "Ingrese el teléfono del pasajero: ";
             $telefono = trim(fgets(STDIN));
+            echo "Ingrese el numero de asiento: ";
+            $asiento = trim(fgets(STDIN));
+            echo "Ingrese el numero de ticket: ";
+            $ticket = trim(fgets(STDIN));
             
             // Crear una instancia de la clase Pasajero con los datos ingresados
-            $pasajero = new Pasajero($nombre, $apellido, $documento, $telefono);
+            $pasajero = new Pasajero($nombre, $apellido, $documento, $telefono,$asiento,$ticket);
             
             $objViaje->agregarPasajero($pasajero);
 

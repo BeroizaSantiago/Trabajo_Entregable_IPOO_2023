@@ -5,15 +5,18 @@ class Viaje{
     private $cantMaxPasajeros;
     private $pasajeros =[];
     private $responsable;
+    private $costo;
+    private $costoAbonado = 0;
 
     //constructor
-    public function __construct($codigo, $destino, $cantidadMaxima,$objResp,$objPas)
+    public function __construct($codigo, $destino, $cantidadMaxima,$objResp,$objPas, $costo)
     {
         $this->codViaje = $codigo;
         $this->dest = $destino;
         $this->cantMaxPasajeros = $cantidadMaxima;
         $this->responsable = $objResp;
         $this->pasajeros []= $objPas; 
+        $this->costo = $costo;
     }
 
     //get - set
@@ -53,6 +56,26 @@ class Viaje{
     {
         $this->pasajeros = $objPas;
     }
+
+    public function getCostoAbonado()
+    {
+        return $this->costoAbonado;
+    }
+    public function setCostoAbonado($costAbonado)
+    {
+        $this->costoAbonado += $costAbonado;
+    }
+
+
+    public function getCosto()
+    {
+        return $this->costo;
+    }
+    public function setCosto($costo)
+    {
+        $this->costo = $costo;
+    }
+
 
     public function getResponsable()
     {
@@ -110,31 +133,6 @@ class Viaje{
             echo "El pasajero con número de documento " . $pasajero->getDocumento() . " ya está agregado en este viaje.\n";
         }
 
-
-        /* while($cond){
-             echo "--------------------------------\n";
-             echo "¿Desea ingresar un pasajero? \nResponda: (s/n)";
-             $resp  = trim(fgets(STDIN));
-             strtolower($resp);
-             if($resp == "s"){
-                 echo "Ingrese el nombre del pasajero: \n";
-                 $nombAgregar  = trim(fgets(STDIN));
-                 echo "Ingrese el apellido del pasajero: \n";
-                 $apellAgregar  = trim(fgets(STDIN));
-                echo "Ingrese el documento del pasajero: \n";
-                $docAgregar  = trim(fgets(STDIN));
-                 echo "Ingrese el Numero telefonico del pasajero: \n";
-                 $tellAgregar  = trim(fgets(STDIN));
-
-                 $nuevoPasajeros= new Pasajero($nombAgregar,$apellAgregar,$docAgregar,$tellAgregar); 
-
-                 array_push($this->pasajeros, $nuevoPasajeros);
-             }else{
-                 $cond =false;
-             }
-         } 
-        
-         return $nuevoPasajeros;*/
     }
 
 
@@ -152,80 +150,7 @@ class Viaje{
         }
         return false; // Retornar false si no se encontró al pasajero
     }
-    /* public function modificarPasajero($dni){
-         $boolean = false;
-         $arrayDePaso = $this->getPasajeros();
-         $count = count($arrayDePaso);
-         $noEncontrado = true;
-         $i = 0;
-         $posicion = 0;
-         $modificado=[];
-        
-         //Busqueda del pasajero
-         while($noEncontrado && $i < $count){
-             $pasajeroSeleccionado = $arrayDePaso[$i];
-             $dniSeleccionado = $pasajeroSeleccionado->$this->getDocumento();
-             if($dni == $dniSeleccionado){
-                 $noEncontrado = false;
-                 $posicion = $i;
-                 $boolean = true;
-             }
-             $i++;
-        }
 
-        if(!$noEncontrado){
-         $pasajero = $arrayDePaso[$posicion];
-         $modificado = $this->menuModificar($pasajero);
-         $arrayDePaso[$posicion] = $modificado;
-         $this->setPasajeros($arrayDePaso);
-  
-     }
-
-        return $boolean;
-     }   
-
-
-    //Menu de modificacion de pasajero
-     private function menuModificar($pasajMod){
-         $menuModificar = "
-         1. Modificar nombre.\n
-         2. Modificar apellido.\n
-         3. Modificar dni.\n
-         4. Salir.\n";
-         $salir = true;
-         do {
-             echo $menuModificar;
-             $seleccion = trim(fgets(STDIN));
-             switch ($seleccion) {
-                 case '1':
-                     echo "El nombre a cambiar es: ".$pasajMod["nombre"];
-                     echo "\nIngrese el nuevo nombre: \n";
-                     $nuevoNombre = trim(fgets(STDIN));
-                     $pasajMod["nombre"]=$nuevoNombre;
-                     break;
-
-                 case '2':
-                     echo "El apellido a cambiar es: ".$pasajMod["apellido"];
-                     echo "\nIngrese el nuevo apellido: \n";
-                     $nuevoApellido = trim(fgets(STDIN));
-                     $pasajMod["apellido"]=$nuevoApellido;
-                     break;
-
-                 case '3':
-                     echo "El documento a cambiar es: ".$pasajMod["nro doc"];
-                     echo "\nIngrese el nuevo dni: \n";
-                     $nuevoDni = intval(trim(fgets(STDIN)));
-                     $pasajMod["nro doc"]=$nuevoDni;
-                     break;
-
-                 default:
-                     $salir = false;
-                     break;
-             }
-         } while ($salir);
-        
-         return $pasajMod;
-     }*/
 
     //Funcion para mostrar los datos del pasajero en forma de string
     public function pasajerosStr() {
@@ -235,21 +160,7 @@ class Viaje{
         }
     }
 
-    /* public function pasajerosStr(){
-         $strPasajeros="";
-         $i=0;
-         foreach ($this->getPasajeros() as $key => $value) {
-             $objPasajero = $value; 
-             $string ="Pasajero NRO ({$i})
-                     \nNombre y Apellido: {$objPasajero["nombre"]} {$objPasajero["apellido"]}
-                     \nDocumento: {$objPasajero["nro doc"]}\n";
-             $strPasajeros.= $string."\n";
-             $i++;
-         }
 
-         return $strPasajeros;
-    
-     }*/
 
     //Datos del viaje
     public function __toString() {
@@ -265,5 +176,31 @@ class Viaje{
         return $cadena;
     }
 
+    public function venderPasaje($objPasajero) {
+        $ret=null;
+        if (count($this->pasajeros) < $this->cantMaxPasajeros) {
+            array_push($this->pasajeros, $objPasajero);
+            $this->setCostoAbonado($this->costo);
+            $ret = $this->calcularCostoFinal($this->costo);
+        } else {
+            $ret = "No hay espacio disponible en este viaje.";
+        }
+
+        return $ret;
+    }
+
+    private function calcularCostoFinal($costoPasajero) {
+        $incremento = $costoPasajero * $this->pasajeros->darPorcentajeIncremento() / 100;
+        $costoFinal = $costoPasajero + $incremento;
+        return $costoFinal;
+    }
             
+
+    public function hayPasajesDisponibles() {
+        $disponible = false;
+        if(count($this->pasajeros) < $this->cantMaxPasajeros){
+            $disponible= true;
+        }
+        return $disponible;
+      }
 }
